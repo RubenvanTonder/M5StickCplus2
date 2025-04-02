@@ -36,7 +36,6 @@ void setup() {
     M5.Display.clear(TFT_BLACK);
 
     M5.Display.setCursor(display.width/2-55,display.height/2-15);
-    
 }
 
 void loop() {
@@ -49,6 +48,12 @@ void loop() {
   switch (menu)
   {
   case 0:
+  if (!main_screen_load)
+  {
+    M5.Display.clearDisplay(TFT_BLACK);
+    load_menu = false;
+    main_screen_load = true;
+  }
     date = M5.Rtc.getDateTime();
     if (date.time.seconds != previous_seconds)
     {
@@ -75,9 +80,58 @@ void loop() {
   
     break;
   case 1:
-    M5.Lcd.pushImage(0, 0, 80, 80, husky_load_screen_map);
+
+    if (!load_menu)
+    {
+      // Clear the display
+      M5.Display.clearDisplay(TFT_BLACK);
+      // Set cursor to display first menu item
+      M5.Display.setCursor(5,5);
+      M5.Display.println("Home Screen");
+
+      // Set cursor to display the second menu item
+      M5.Display.setCursor(5,35);
+      M5.Display.println("Second Screen");
+
+      load_menu = true;
+      main_screen_load = false;
+      
+      M5.BtnA.setRawState(100, false);
+      M5.BtnB.setRawState(100, false);
+      M5.BtnC.setRawState(100, false);
+      delay(2500);
+    }
+
+    if(M5.BtnB.isPressed())
+    {
+      if (menu_selected <1)
+      {
+        menu_selected++;
+      }
+    }
+
+    if (M5.BtnA.isPressed())
+    {
+      M5.Display.printf("Here");
+      delay(1000);
+      switch (menu_selected)
+      {
+      case 0:
+        menu = 0;
+        break;
+      case 1:
+        menu = 2;
+        break; 
+      default:
+        break;
+      }
+    }
 
     break;
+
+    case 2:
+
+     M5.Display.clearDisplay(TFT_BLACK);
   
   default:
     break;
