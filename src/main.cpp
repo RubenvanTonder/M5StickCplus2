@@ -48,6 +48,8 @@ void loop() {
   switch (menu)
   {
   case 0:
+
+  // Clear display
   if (!main_screen_load)
   {
     M5.Display.clearDisplay(TFT_BLACK);
@@ -95,13 +97,15 @@ void loop() {
 
       load_menu = true;
       main_screen_load = false;
-      
+
+      // make sure the button states are reset
       M5.BtnA.setRawState(100, false);
       M5.BtnB.setRawState(100, false);
       M5.BtnC.setRawState(100, false);
       delay(2500);
     }
 
+    // change menu selection
     if(M5.BtnB.isPressed())
     {
       if (menu_selected <1)
@@ -110,6 +114,7 @@ void loop() {
       }
     }
 
+    // Switch to selected screen/application
     if (M5.BtnA.isPressed())
     {
       M5.Display.printf("Here");
